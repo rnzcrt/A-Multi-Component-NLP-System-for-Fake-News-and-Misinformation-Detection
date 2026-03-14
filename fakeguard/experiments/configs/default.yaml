@@ -1,0 +1,42 @@
+# FakeGuard — Default Experiment Configuration
+project: FakeGuard
+seed: 42
+
+data:
+  dataset: liar
+  raw_dir: data/raw
+  binary_labels: true
+
+model:
+  type: distilbert            # options: tfidf_lr | text_cnn | distilbert
+  pretrained: distilbert-base-uncased
+  max_length: 128
+  num_classes: 2
+  dropout: 0.3
+
+training:
+  epochs: 5
+  batch_size: 32
+  lr: 2.0e-5
+  warmup_steps: 100
+  early_stopping_patience: 3
+  optimizer: adamw
+  scheduler: linear_warmup
+
+text_cnn:
+  embed_dim: 300
+  filter_sizes: [3, 4, 5]
+  num_filters: 128
+  dropout: 0.5
+
+rl_agent:
+  algorithm: epsilon_greedy_bandit
+  epsilon: 0.1
+  lr: 0.05
+  episodes: 200
+  alpha: 2.0    # FP penalty weight
+  beta: 1.0     # FN penalty weight
+
+output:
+  results_dir: experiments/results
+  logs_dir: experiments/logs
